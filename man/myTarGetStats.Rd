@@ -18,7 +18,7 @@ myTarGetStats(date_from   = Sys.Date() - 7,
 \arguments{
   \item{date_from}{Start date}
   \item{date_to}{End date}
-  \item{object_type}{API object typr, character value, apply one of campaigns, banners,pad_groups,pads,users}
+  \item{object_type}{API object typr, character value, apply one of campaigns, banners, users}
   \item{object_id}{ID of API object (id campaign or any object}
   \item{stat_type}{Time stap, get value day or hour}
   \item{metrics}{Set of metrics, see metrics section for more ditali, default "base", but you can load any of all, base, events, video, viral, uniques, tps, or go this \href{https://target.my.com/adv/api-marketing/doc/stat-v2}{link}}
@@ -160,44 +160,48 @@ MyTarget API documentation - https://target.my.com/doc/api/detailed/#resource_st
 \examples{
 \dontrun{
 # base metrics by campaigns
-base_data <- myTarGetTotalData(date_from   = Sys.Date() - 7,
-                               date_to     = Sys.Date(),
-                               object_type = "campaigns",
-                               object_id = camp$id,
-                               metrics = "base",
-                               stat_type = "day",
-                               login = "client_login", 
-                               token_path = "D:\\mytarget_token")
+base_data <- myTarGetStats(date_from   = Sys.Date() - 7,
+                           date_to     = Sys.Date(),
+                           object_type = "campaigns",
+                           metrics = "base",
+                           stat_type = "day",
+                           login = "client_login", 
+                           token_path = "D:\\mytarget_token")
 
 # all metrics by campaigns
-all_data <- myTarGetTotalData(date_from   = Sys.Date() - 7,
-                              date_to     = Sys.Date(),
-                              object_type = "campaigns",
-                              object_id = camp$id,
-                              metrics = "all",
-                              stat_type = "day",
-                              login = "client_login", 
-                              token_path = "D:\\mytarget_token")
+all_data <- myTarGetStats(date_from   = Sys.Date() - 7,
+                          date_to     = Sys.Date(),
+                          object_type = "campaigns",
+                          metrics = "all",
+                          stat_type = "day",
+                          login = "client_login", 
+                          token_path = "D:\\mytarget_token")
 
 # custom set of metric by campaigns
-custom_data <- myTarGetTotalData(date_from   = Sys.Date() - 7,
-                                 date_to     = Sys.Date(),
-                                 object_type = "campaigns",
-                                 object_id = camp$id,
-                                 metrics = c("base", "tps", "viral"),
-                                 stat_type = "day",
-                                 login = "client_login", 
-                                 token_path = "D:\\mytarget_token")
+custom_data <- myTarGetStats(date_from   = Sys.Date() - 7,
+                             date_to     = Sys.Date(),
+                             object_type = "campaigns",
+                             metrics = c("base", "tps", "viral"),
+                             stat_type = "day",
+                             login = "client_login", 
+                             token_path = "D:\\mytarget_token")
 
 
 # if have note objects id, base metrics by ads
 base_data2 <- myTarGetStats(date_from   = as.Date("2013-01-01"),
-                                date_to     = Sys.Date(),
-                                object_type = "banners",
-                                metrics = "base",
-                                stat_type = "day",
-                                login = "client_login", 
-                                token_path = "D:\\mytarget_token")
+                            date_to     = Sys.Date(),
+                            object_type = "banners",
+                            metrics = "base",
+                            stat_type = "day",
+                            login = "client_login", 
+                            token_path = "D:\\mytarget_token")
+							
+# get all stats group by clients, only for agency account
+client_stat <-  myTarGetStats(date_from   = Sys.Date() - 7,
+                              date_to     = Sys.Date(),
+                              object_type = "users",
+                              metrics     = "all",
+                              login       = "agency_login")
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,5 +1,5 @@
-a9611c38c53ce557650877113474762e *DESCRIPTION
-5496fa88d86028f77d1f2c41a170b549 *NAMESPACE
+7a690fe2acefa36fa2bc96b62c183db8 *DESCRIPTION
+328f1b8355b9189e0115cf9a500c9b98 *NAMESPACE
 6b40f857590c3d84d8d3b340b1829fae *R/myTarAuth.R
 ac273964b2a633b8d187295c081fa47b *R/myTarGetAdList.R
 5efd38fc4a6ebdc7072ddfcc16302345 *R/myTarGetCampaignList.R
@@ -7,8 +7,7 @@ a06f48cc4b8bfe6e314a710ff0fe293f *R/myTarGetClientList.R
 9673e442ca4f1f312369d4ab5b6bc75d *R/myTarGetStats.R
 052f0b28162875847cdfa3981fad007d *R/myTarRefreshToken.R
 6d9d0ac8ff412b87ca940055fdce57f1 *R/zzz.R
-fb917847953af08a676ae307edee6601 *README
-ef0b75899e01a744d2c1ed2a45f3e543 *build/partial.rdb
+7daf33f1d8d042f7629ddf0d87349d57 *build/partial.rdb
 ecdd32b13a4c77b869e3f701bcbf618a *man/myTarAuth.Rd
 be5be0d18791502e6358e02436312dcd *man/myTarGetAdList.Rd
 b88f87b4526667ff49a666708cf78aa3 *man/myTarGetCampaignList.Rd

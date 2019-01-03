@@ -1,8 +1,8 @@
 Package: rmytarget
 Type: Package
 Title: Load Data from 'MyTarget API'
-Version: 2.1.0
-Date: 2018-12-19
+Version: 2.1.1
+Date: 2019-01-03
 Author: Alexey Seleznev
 Maintainer: Alexey Seleznev <selesnow@gmail.com>
 Description: Allows work with 'MyTarget API v2' <https://target.my.com/doc/apiv2/ru/detailed.html> and
@@ -15,6 +15,6 @@ License: GPL-2
 Encoding: UTF-8
 Suggests: testthat
 NeedsCompilation: no
-Packaged: 2018-12-19 16:13:40 UTC; Alsey
+Packaged: 2019-01-03 09:59:52 UTC; Alsey
 Repository: CRAN
-Date/Publication: 2018-12-19 16:20:02 UTC
+Date/Publication: 2019-01-03 10:20:03 UTC

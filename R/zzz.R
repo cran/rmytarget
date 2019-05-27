@@ -26,6 +26,7 @@ ryandexdirectWelcomeMessage <- function(){
          "Welcome to rmytarget version ", utils::packageDescription("rmytarget")$Version, "\n",
          "\n",
          "Author:   Alexey Seleznev (Head of analytics dept at Netpeak).\n",
+		 "Telegram channel: https://t.me/R4marketing\n",
          "Email:    selesnow@gmail.com\n",
          "Blog:     https://alexeyseleznev.wordpress.com \n",
          "Facebook: https://facebook.com/selesnown \n",

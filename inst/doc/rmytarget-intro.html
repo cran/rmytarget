@@ -1,502 +1,764 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Краткое описание.</title>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Alexey Seleznev" />
+
+<meta name="date" content="2019-05-27" />
+
+<title>Введение в Пакет rmytarget</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-};
-</script>
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
-<!-- Styles for R syntax highlighter -->
-<style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
-
-   pre .literal {
-     color: #990073
-   }
-
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
 </style>
-
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
 
 
 
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
 }
-
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
+#header {
+text-align: center;
 }
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
 }
-
-h1 {
-   font-size:2.2em;
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
 }
-
-h2 {
-   font-size:1.8em;
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
 }
-
-h3 {
-   font-size:1.4em;
+#TOC ul ul {
+margin-left: -2em;
 }
-
-h4 {
-   font-size:1.0em;
+#TOC li {
+line-height: 16px;
 }
-
-h5 {
-   font-size:0.9em;
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
 }
-
-h6 {
-   font-size:0.8em;
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
 }
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
 }
-
-pre, img {
-  max-width: 100%;
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
 }
 pre {
-  overflow-x: auto;
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
 }
-pre code {
-   display: block; padding: 0.5em;
+pre:not([class]) {
+background-color: #f7f7f7;
 }
-
 code {
-  font-size: 92%;
-  border: 1px solid #ccc;
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
 }
-
-code[class] {
-  background-color: #F8F8F8;
+p > code, li > code {
+padding: 2px 0px;
 }
-
-table, td, th {
-  border: none;
+div.figure {
+text-align: center;
 }
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
 }
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
 }
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
 }
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
+
 
 
 
 </head>
 
 <body>
+
+
+
+
+<h1 class="title toc-ignore">Введение в Пакет rmytarget</h1>
+<h4 class="author">Alexey Seleznev</h4>
+<h4 class="date">2019-05-27</h4>
+
+
+
+<div id="section" class="section level2">
 <h2>Краткое описание.</h2>
-
 <p>Пакет rmytarget помогает получить дата фрейм со списком клиентов агентств из аккаунта MyTarget, получить список и обшие параметры рекламных кампаний по каждому из проектов, а так же получить детальную статистику по кампаниям, объявлениям и клиентам за каждый день, и в целом за выбранный период.</p>
-
+</div>
+<div id="rmytarget." class="section level2">
 <h2>Установка пакета rmytarget.</h2>
-
 <p>Установка пакета осуществляется либо из CRAN, либо из репозитория GitHub, для этого сначала требуется установить и подключить пакет devtools.</p>
-
 <p>Установка из CRAN: <code>install.packages(&quot;rmytarget&quot;)</code></p>
-
 <p>Для установка dev версии из GitHub предварительно вам необходимо установить пакет <code>devtools</code>, и уже с его помощью устанавлиать <code>rmytarget</code>:</p>
-
-<pre><code class="r">install.packages(&quot;devtools&quot;)
-library(devtools)
-
-# После чего можно устанавливать пакет rmytarget.
-install_github(&#39;selesnow/rmytarget&#39;)
-library(rmytarget)
-</code></pre>
-
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co"># После чего можно устанавливать пакет rmytarget.</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">install_github</span>(<span class="st">&#39;selesnow/rmytarget&#39;</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(rmytarget)</a></code></pre></div>
+</div>
+<div id="api-mytarget" class="section level2">
 <h2>Пример кода для загрузки данных из API MyTarget</h2>
-
+<div id="section-1" class="section level3">
 <h3>Работа с обычным рекламным аккаунтом, даже если вы имете к нему доступ через агентский аккаунт</h3>
-
-<pre><code class="r">library(rmytarget)
-
-# ================
-# пример работы с клиентским аккаунтом
-# авторизация
-# если вы работаете через агенский аккаунт то в браузере выберите пункт 
-# предоставить доступ к аккаунту клиента или менеджера
-
-myTarAuth(login = &quot;seleznev&quot;, token_path = &quot;tokens&quot;)
-
-# загрузка списка рекламных кампаний и объявлений
-campaing &lt;- myTarGetCampaignList(login = &quot;seleznev&quot;, token_path = &quot;tokens&quot;)
-ads      &lt;- myTarGetAdList(login = &quot;seleznev&quot;, token_path = &quot;tokens&quot;)
-
-# загрузка статистики по рекламным кампанийм
-camp_data    &lt;- myTarGetStats(date_from   = Sys.Date() - 7,
-                              date_to     = Sys.Date(),
-                              object_type = &quot;campaigns&quot;,
-                              object_id   = campaing$id,
-                              stat_type   = &quot;day&quot;,
-                              login       = &quot;seleznev&quot;, 
-                              token_path  = &quot;tokens&quot;)
-
-# загрузка списка метрик входящих в группы &quot;base&quot;, &quot;tps&quot;, &quot;viral&quot; по объявлениям
-custom_data &lt;- myTarGetStats(date_from   = Sys.Date() - 7,
-                             date_to     = Sys.Date(),
-                             object_type = &quot;banners&quot;,
-                             metrics     = c(&quot;base&quot;, &quot;tps&quot;, &quot;viral&quot;),
-                             stat_type   = &quot;day&quot;,
-                             login       = &quot;seleznev&quot;, 
-                             token_path  = &quot;tokens&quot;)
-
-# загрузка всех возможных метрик с группировкой по рекламным кампаниям
-all_data &lt;- myTarGetStats(date_from   = Sys.Date() - 7,
-                          date_to     = Sys.Date(),
-                          object_type = &quot;campaigns&quot;,
-                          metrics     = &quot;all&quot;,
-                          login       = &quot;seleznev&quot;, 
-                          token_path  = &quot;tokens&quot;)
-</code></pre>
-
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(rmytarget)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># ================</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># пример работы с клиентским аккаунтом</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co"># авторизация</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co"># если вы работаете через агенский аккаунт то в браузере выберите пункт </span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co"># предоставить доступ к аккаунту клиента или менеджера</span></a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="kw">myTarAuth</span>(<span class="dt">login =</span> <span class="st">&quot;seleznev&quot;</span>, <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb2-10" title="10"></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co"># загрузка списка рекламных кампаний и объявлений</span></a>
+<a class="sourceLine" id="cb2-12" title="12">campaing &lt;-<span class="st"> </span><span class="kw">myTarGetCampaignList</span>(<span class="dt">login =</span> <span class="st">&quot;seleznev&quot;</span>, <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb2-13" title="13">ads      &lt;-<span class="st"> </span><span class="kw">myTarGetAdList</span>(<span class="dt">login =</span> <span class="st">&quot;seleznev&quot;</span>, <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb2-14" title="14"></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co"># загрузка статистики по рекламным кампанийм</span></a>
+<a class="sourceLine" id="cb2-16" title="16">camp_data    &lt;-<span class="st"> </span><span class="kw">myTarGetStats</span>(<span class="dt">date_from   =</span> <span class="kw">Sys.Date</span>() <span class="op">-</span><span class="st"> </span><span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb2-17" title="17">                              <span class="dt">date_to     =</span> <span class="kw">Sys.Date</span>(),</a>
+<a class="sourceLine" id="cb2-18" title="18">                              <span class="dt">object_type =</span> <span class="st">&quot;campaigns&quot;</span>,</a>
+<a class="sourceLine" id="cb2-19" title="19">                              <span class="dt">object_id   =</span> campaing<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb2-20" title="20">                              <span class="dt">stat_type   =</span> <span class="st">&quot;day&quot;</span>,</a>
+<a class="sourceLine" id="cb2-21" title="21">                              <span class="dt">login       =</span> <span class="st">&quot;seleznev&quot;</span>, </a>
+<a class="sourceLine" id="cb2-22" title="22">                              <span class="dt">token_path  =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb2-23" title="23"></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co"># загрузка списка метрик входящих в группы &quot;base&quot;, &quot;tps&quot;, &quot;viral&quot; по объявлениям</span></a>
+<a class="sourceLine" id="cb2-25" title="25">custom_data &lt;-<span class="st"> </span><span class="kw">myTarGetStats</span>(<span class="dt">date_from   =</span> <span class="kw">Sys.Date</span>() <span class="op">-</span><span class="st"> </span><span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb2-26" title="26">                             <span class="dt">date_to     =</span> <span class="kw">Sys.Date</span>(),</a>
+<a class="sourceLine" id="cb2-27" title="27">                             <span class="dt">object_type =</span> <span class="st">&quot;banners&quot;</span>,</a>
+<a class="sourceLine" id="cb2-28" title="28">                             <span class="dt">metrics     =</span> <span class="kw">c</span>(<span class="st">&quot;base&quot;</span>, <span class="st">&quot;tps&quot;</span>, <span class="st">&quot;viral&quot;</span>),</a>
+<a class="sourceLine" id="cb2-29" title="29">                             <span class="dt">stat_type   =</span> <span class="st">&quot;day&quot;</span>,</a>
+<a class="sourceLine" id="cb2-30" title="30">                             <span class="dt">login       =</span> <span class="st">&quot;seleznev&quot;</span>, </a>
+<a class="sourceLine" id="cb2-31" title="31">                             <span class="dt">token_path  =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb2-32" title="32"></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co"># загрузка всех возможных метрик с группировкой по рекламным кампаниям</span></a>
+<a class="sourceLine" id="cb2-34" title="34">all_data &lt;-<span class="st"> </span><span class="kw">myTarGetStats</span>(<span class="dt">date_from   =</span> <span class="kw">Sys.Date</span>() <span class="op">-</span><span class="st"> </span><span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb2-35" title="35">                          <span class="dt">date_to     =</span> <span class="kw">Sys.Date</span>(),</a>
+<a class="sourceLine" id="cb2-36" title="36">                          <span class="dt">object_type =</span> <span class="st">&quot;campaigns&quot;</span>,</a>
+<a class="sourceLine" id="cb2-37" title="37">                          <span class="dt">metrics     =</span> <span class="st">&quot;all&quot;</span>,</a>
+<a class="sourceLine" id="cb2-38" title="38">                          <span class="dt">login       =</span> <span class="st">&quot;seleznev&quot;</span>, </a>
+<a class="sourceLine" id="cb2-39" title="39">                          <span class="dt">token_path  =</span> <span class="st">&quot;tokens&quot;</span>)</a></code></pre></div>
+</div>
+<div id="section-2" class="section level3">
 <h3>Работа с агентским аккаунтом</h3>
-
-<pre><code class="r">library(rmytarget)
-
-# авторизация
-# в браузере необходимо выбрать пункт предоставить доступ к аккаунту &quot;логин агенсткого аккаунта&quot;
-myTarAuth(login = &quot;agency&quot;, token_path = &quot;tokens&quot;)
-
-# загрузка списка клиентов
-clients &lt;- myTarGetClientList(login = &quot;agency&quot;,
-                              token_path = &quot;tokens&quot;)
-
-# загрузка статистики с группировкой по клиентам агентского аккаунта
-client_stat &lt;-  myTarGetStats(date_from   = Sys.Date() - 7,
-                              date_to     = Sys.Date(),
-                              object_id   = clients$id,
-                              object_type = &quot;users&quot;,
-                              metrics     = &quot;all&quot;,
-                              login       = &quot;agency&quot;,
-                  token_path = &quot;tokens&quot;)
-</code></pre>
-
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(rmytarget)</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co"># авторизация</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co"># в браузере необходимо выбрать пункт предоставить доступ к аккаунту &quot;логин агенсткого аккаунта&quot;</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw">myTarAuth</span>(<span class="dt">login =</span> <span class="st">&quot;agency&quot;</span>, <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co"># загрузка списка клиентов</span></a>
+<a class="sourceLine" id="cb3-8" title="8">clients &lt;-<span class="st"> </span><span class="kw">myTarGetClientList</span>(<span class="dt">login =</span> <span class="st">&quot;agency&quot;</span>,</a>
+<a class="sourceLine" id="cb3-9" title="9">                              <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a>
+<a class="sourceLine" id="cb3-10" title="10"></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co"># загрузка статистики с группировкой по клиентам агентского аккаунта</span></a>
+<a class="sourceLine" id="cb3-12" title="12">client_stat &lt;-<span class="st">  </span><span class="kw">myTarGetStats</span>(<span class="dt">date_from   =</span> <span class="kw">Sys.Date</span>() <span class="op">-</span><span class="st"> </span><span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb3-13" title="13">                              <span class="dt">date_to     =</span> <span class="kw">Sys.Date</span>(),</a>
+<a class="sourceLine" id="cb3-14" title="14">                              <span class="dt">object_id   =</span> clients<span class="op">$</span>id,</a>
+<a class="sourceLine" id="cb3-15" title="15">                              <span class="dt">object_type =</span> <span class="st">&quot;users&quot;</span>,</a>
+<a class="sourceLine" id="cb3-16" title="16">                              <span class="dt">metrics     =</span> <span class="st">&quot;all&quot;</span>,</a>
+<a class="sourceLine" id="cb3-17" title="17">                              <span class="dt">login       =</span> <span class="st">&quot;agency&quot;</span>,</a>
+<a class="sourceLine" id="cb3-18" title="18">                  <span class="dt">token_path =</span> <span class="st">&quot;tokens&quot;</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="section-3" class="section level2">
 <h2>Получение списка клиентов для агентского аккаунта.</h2>
-
 <p>Эта функция доступна только для агентских аккаунтов, и соответсвенно для токенов выданных агентским аккаунтам.</p>
-
 <p><code>myTarGetClients &lt;- myTarGetClientList(login = &quot;agency_login&quot;)</code></p>
-
 <p>Аргументы функции:</p>
-
 <ul>
 <li>auth - Необязательный аргумент, объект R с авторизационными данными, полученный с помощью функции myTarAuth</li>
 <li>login - Логин, в принципе используется только для работы с файлом в котором храняться учётные данные</li>
 <li>token_path - Путь к папке, в котором изначально будет сохранеён файл для хранения учётных данных, а в дальнейшем для загрузки учётных * данных, по умолчанию рабочая директория</li>
 </ul>
-
+</div>
+<div id="section-4" class="section level2">
 <h2>Получение списка рекламных кампаний.</h2>
-
 <p>Функция доступна для рекламных аккаунтов в которых есть рекламные кампании, для того что бы получить список рекламных кампаний клиента агентства вам необходимо получить для этого клиента токен, указав имя клента в аргументе agency_client_name функции myTarAuth.</p>
-
 <p><code>Campaign &lt;- myTarGetCampaignList(login = &quot;your_login&quot;)</code></p>
-
 <p>Аргументы функции:</p>
-
 <ul>
 <li>auth - Необязательный аргумент, объект R с авторизационными данными, полученный с помощью функции myTarAuth</li>
-<li>login - Логин, в принципе используется только для работы с файлом в котором храняться учётные данные
-token_path - Путь к папке, в котором изначально будет сохранеён файл для хранения учётных данных, а в дальнейшем для загрузки учётных данных, по умолчанию рабочая директория</li>
-<li>request_speed - Необязательный аргумент, служит для регулировки паузы между запросами к API, что бы избежать ошибки <code>Too Many Requests (RFC 6585) (HTTP 429)</code>, т.е. при работе с большим аккаунтом может потребоваться увеличить паузы между запросами, если столкнулись с такой ошибкой установите значение &ldquo;slow&rdquo;, при работе с аккаунтами в которых небольшое количетсво рекламных кампаний можно устанавливать значение &ldquo;fast&rdquo;.</li>
+<li>login - Логин, в принципе используется только для работы с файлом в котором храняться учётные данные token_path - Путь к папке, в котором изначально будет сохранеён файл для хранения учётных данных, а в дальнейшем для загрузки учётных данных, по умолчанию рабочая директория</li>
+<li>request_speed - Необязательный аргумент, служит для регулировки паузы между запросами к API, что бы избежать ошибки <code>Too Many Requests (RFC 6585) (HTTP 429)</code>, т.е. при работе с большим аккаунтом может потребоваться увеличить паузы между запросами, если столкнулись с такой ошибкой установите значение “slow”, при работе с аккаунтами в которых небольшое количетсво рекламных кампаний можно устанавливать значение “fast”.</li>
 </ul>
-
+</div>
+<div id="section-5" class="section level2">
 <h2>Получение списка объявлений.</h2>
-
 <p>Для загрузки списка объявлений используйте функцию <code>myTarGetAdList</code>.</p>
-
 <p><code>Ads &lt;- myTarGetAdList(login = &quot;your_login&quot;)</code></p>
-
 <p>Аргументы функции:</p>
-
 <ul>
 <li>auth - Необязательный аргумент, объект R с авторизационными данными, полученный с помощью функции myTarAuth</li>
-<li>login - Логин, в принципе используется только для работы с файлом в котором храняться учётные данные
-token_path - Путь к папке, в котором изначально будет сохранеён файл для хранения учётных данных, а в дальнейшем для загрузки учётных данных, по умолчанию рабочая директория</li>
-<li>request_speed - Необязательный аргумент, служит для регулировки паузы между запросами к API, что бы избежать ошибки <code>Too Many Requests (RFC 6585) (HTTP 429)</code>, т.е. при работе с большим аккаунтом может потребоваться увеличить паузы между запросами, если столкнулись с такой ошибкой установите значение &ldquo;slow&rdquo;, при работе с аккаунтами в которых небольшое количетсво рекламных кампаний можно устанавливать значение &ldquo;fast&rdquo;.</li>
+<li>login - Логин, в принципе используется только для работы с файлом в котором храняться учётные данные token_path - Путь к папке, в котором изначально будет сохранеён файл для хранения учётных данных, а в дальнейшем для загрузки учётных данных, по умолчанию рабочая директория</li>
+<li>request_speed - Необязательный аргумент, служит для регулировки паузы между запросами к API, что бы избежать ошибки <code>Too Many Requests (RFC 6585) (HTTP 429)</code>, т.е. при работе с большим аккаунтом может потребоваться увеличить паузы между запросами, если столкнулись с такой ошибкой установите значение “slow”, при работе с аккаунтами в которых небольшое количетсво рекламных кампаний можно устанавливать значение “fast”.</li>
 </ul>
-
+</div>
+<div id="section-6" class="section level2">
 <h2>Получение статистики по рекламным аккаунтам и объявлениям.</h2>
-
 <p>Для загрузки статистики необходимо использовать функцию <code>myTarGetStats</code>. Примеры её использования приведены в начале документации.</p>
-
 <p>Аргументы функции:</p>
-
 <ul>
 <li>date_from - Дата начала отчётного периода</li>
 <li>date_to - Дата звершения отчётоного периода</li>
-<li>object_type - Тип объекта по которому будут группироваться полученные данные, возможные значения banners, campaings и users. Группировка users доступна только при работе с агентскими аккаунтами, и предназначена для загрузки статистики в разрезе клиентов агентского аккаунта. </li>
+<li>object_type - Тип объекта по которому будут группироваться полученные данные, возможные значения banners, campaings и users. Группировка users доступна только при работе с агентскими аккаунтами, и предназначена для загрузки статистики в разрезе клиентов агентского аккаунта.</li>
 <li>object_id - Необязательный аргумент, ID объектов по которым вы хотите получить статистику, зависит от значения установленного в аргумент object_type. По умолчанию запрашивается статистика по всем объектам указанного в аргументе object_type типа.</li>
-<li>stat_type - Временная группировка данных, по умолчанию &ldquo;day&rdquo;, так же можно загружать статистику за весь период указав значение &ldquo;summary&rdquo;.</li>
-<li>metrics - Вектор, содержащий названия групп метрик которые вы хотите получить, по умолчанию принимает значение base, но так же вам доступны такие группы: base, events, video, viral, uniques, tps. Для загрузки всех метрик укажите значение &ldquo;all&rdquo;. Подробное описание метрик входящих в каждую группу доступно по <a href="https://target.my.com/adv/api-marketing/doc/stat-v2">ссылке</a>, или чуть ниже в этой документации.</li>
+<li>stat_type - Временная группировка данных, по умолчанию “day”, так же можно загружать статистику за весь период указав значение “summary”.</li>
+<li>metrics - Вектор, содержащий названия групп метрик которые вы хотите получить, по умолчанию принимает значение base, но так же вам доступны такие группы: base, events, video, viral, uniques, tps. Для загрузки всех метрик укажите значение “all”. Подробное описание метрик входящих в каждую группу доступно по <a href="https://target.my.com/adv/api-marketing/doc/stat-v2">ссылке</a>, или чуть ниже в этой документации.</li>
 <li>auth - Необяхательный аргумент, объект который можно получить с помощью функции myTarAuth.</li>
 <li>token_path - Путь к папке в которой хранится файл с учётными данными, файл создаётся при первом обращении к API MyTarget в случае запуска любой из функций пакета, далее учётые данные подтягиваются по значению аргумента login. <strong>Будьтк внимательны, т.к. API MyTagrteg позволяет запрашивать не более 5 токен для одного аккаунта</strong>.</li>
 </ul>
-
+<div id="metrics" class="section level3">
 <h3>Группы метрик которые можно задавать в аргументе metrics:</h3>
-
-<p><details><summary><b>base</b> - базовые метрики:</summary></p>
-
+<details>
+<p><summary><b>base</b> - базовые метрики:</summary></p>
 <ul>
-<li>shows - количество показов;</li>
-<li>clicks - количество кликов;</li>
-<li>goals - количество достижений целей (цели Top@Mail.ru для сайтов и установок для мобильных приложений);</li>
-<li>spent - списания;</li>
-<li>cpm - среднее списание за 1000 просмотров;</li>
-<li>cpc - среднее списание за 1 клик;</li>
-<li>cpa - среднее списание за достижение 1 цели;</li>
-<li>ctr - процентное отношение количества кликов к количеству просмотров;</li>
-<li>cr - процентное отношение количества достижений целей к количеству кликов.</li>
+<li>
+shows - количество показов;
+</li>
+<li>
+clicks - количество кликов;
+</li>
+<li>
+goals - количество достижений целей (цели <a href="mailto:Top@Mail.ru" class="email">Top@Mail.ru</a> для сайтов и установок для мобильных приложений);
+</li>
+<li>
+spent - списания;
+</li>
+<li>
+cpm - среднее списание за 1000 просмотров;
+</li>
+<li>
+cpc - среднее списание за 1 клик;
+</li>
+<li>
+cpa - среднее списание за достижение 1 цели;
+</li>
+<li>
+ctr - процентное отношение количества кликов к количеству просмотров;
+</li>
+<li>
+cr - процентное отношение количества достижений целей к количеству кликов.
+</li>
 </ul>
-    
-
-<p></details></p>
-
-<p><details><summary><b>events</b> - метрики для рекламируемых сообщений в ленте социальных сетей:</summary></p>
-
+</details>
+<details>
+<p><summary><b>events</b> - метрики для рекламируемых сообщений в ленте социальных сетей:</summary></p>
 <ul>
-<li>opening_app - количество открытий рекламируемого приложения соцсетей;</li>
-<li>opening_post - количество открытий рекламируемого сообщения в ленте соцсетей;</li>
-<li>moving_into_group - количество переходов на страницу группы из рекламируемого сообщения;</li>
-<li>clicks_on_external_url - количество кликов по внешней ссылке в рекламируемом сообщении;</li>
-<li>launching_video - количество запусков видео в рекламируемом сообщении;</li>
-<li>comments - количество оставленных комментариев в рекламируемом сообщении;</li>
-<li>joinings - количество присоединений к группе через рекламируемое сообщение;</li>
-<li>likes - количество лайков рекламируемого сообщения;</li>
-<li>shares - количество действий &ldquo;Поделиться&rdquo; для рекламируемого сообщения;</li>
-<li>votings - количество действий голосования в рекламируемом сообщении.</li>
+<li>
+opening_app - количество открытий рекламируемого приложения соцсетей;
+</li>
+<li>
+opening_post - количество открытий рекламируемого сообщения в ленте соцсетей;
+</li>
+<li>
+moving_into_group - количество переходов на страницу группы из рекламируемого сообщения;
+</li>
+<li>
+clicks_on_external_url - количество кликов по внешней ссылке в рекламируемом сообщении;
+</li>
+<li>
+launching_video - количество запусков видео в рекламируемом сообщении;
+</li>
+<li>
+comments - количество оставленных комментариев в рекламируемом сообщении;
+</li>
+<li>
+joinings - количество присоединений к группе через рекламируемое сообщение;
+</li>
+<li>
+likes - количество лайков рекламируемого сообщения;
+</li>
+<li>
+shares - количество действий “Поделиться” для рекламируемого сообщения;
+</li>
+<li>
+votings - количество действий голосования в рекламируемом сообщении.
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>uniques</b> - метрики по количеству уникальных пользователей:</summary></p>
-
+</details>
+<details>
+<p><summary><b>uniques</b> - метрики по количеству уникальных пользователей:</summary></p>
 <ul>
-<li>opening_app - количество открытий рекламируемого приложения соцсетей;</li>
-<li>opening_post - количество открытий рекламируемого сообщения в ленте соцсетей;</li>
-<li>moving_into_group - количество переходов на страницу группы из рекламируемого сообщения;</li>
-<li>clicks_on_external_url - количество кликов по внешней ссылке в рекламируемом сообщении;</li>
-<li>launching_video - количество запусков видео в рекламируемом сообщении;</li>
-<li>comments - количество оставленных комментариев в рекламируемом сообщении;</li>
-<li>joinings - количество присоединений к группе через рекламируемое сообщение;</li>
-<li>likes - количество лайков рекламируемого сообщения;</li>
-<li>shares - количество действий &ldquo;Поделиться&rdquo; для рекламируемого сообщения;</li>
-<li>votings - количество действий голосования в рекламируемом сообщении.</li>
+<li>
+opening_app - количество открытий рекламируемого приложения соцсетей;
+</li>
+<li>
+opening_post - количество открытий рекламируемого сообщения в ленте соцсетей;
+</li>
+<li>
+moving_into_group - количество переходов на страницу группы из рекламируемого сообщения;
+</li>
+<li>
+clicks_on_external_url - количество кликов по внешней ссылке в рекламируемом сообщении;
+</li>
+<li>
+launching_video - количество запусков видео в рекламируемом сообщении;
+</li>
+<li>
+comments - количество оставленных комментариев в рекламируемом сообщении;
+</li>
+<li>
+joinings - количество присоединений к группе через рекламируемое сообщение;
+</li>
+<li>
+likes - количество лайков рекламируемого сообщения;
+</li>
+<li>
+shares - количество действий “Поделиться” для рекламируемого сообщения;
+</li>
+<li>
+votings - количество действий голосования в рекламируемом сообщении.
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>video</b> - метрики для видеорекламы:</summary></p>
-
+</details>
+<details>
+<p><summary><b>video</b> - метрики для видеорекламы:</summary></p>
 <ul>
-<li>started - количество стартов воспроизведения видео;</li>
-<li>paused - количество пауз воспроизведения видео;</li>
-<li>resumed_after_pause - количество воспроизведения видео после паузы;</li>
-<li>fullscreen_on - количество включений полноэкранного режима воспроизведения видео;</li>
-<li>fullscreen_off - количество выключений полноэкранного режима воспроизведения видео;</li>
-<li>sound_turned_off - количество выключений звука видео;</li>
-<li>sound_turned_on - количество включений звука видео;</li>
-<li>viewed_10_seconds - количество просмотров первых 10 секунд видео;</li>
-<li>viewed_25_percent - количество просмотров первых 25% длительности видео;</li>
-<li>viewed_50_percent - количество просмотров первых 50% длительности видео;</li>
-<li>viewed_75_percent - количество просмотров первых 75% длительности видео;</li>
-<li>viewed_100_percent - количество просмотров 100% длительности видео;</li>
-<li>viewed_10_seconds_rate - процент просмотров с достижением первых 10 секунд видео;</li>
-<li>viewed_25_percent_rate - процент просмотров с достижением первых 25% длительности видео;</li>
-<li>viewed_50_percent_rate - процент просмотров с достижением первых 50% длительности видео;</li>
-<li>viewed_75_percent_rate - процент просмотров с достижением первых 75% длительности видео;</li>
-<li>viewed_100_percent_rate - процент просмотров с достижением 100% длительности видео;</li>
-<li>depth_of_view - средняя глубина просмотра видео (в процентах);</li>
-<li>view_10_seconds_cost - средняя стоимость просмотра первых 10 секунд видео;</li>
-<li>viewed_25_percent_cost - средняя стоимость просмотра первых 25% длительности видео;</li>
-<li>viewed_50_percent_cost - средняя стоимость просмотра первых 50% длительности видео;</li>
-<li>viewed_75_percent_cost - средняя стоимость просмотра первых 75% длительности видео;</li>
-<li>viewed_100_percent_cost - средняя стоимость просмотра 100% длительности видео.</li>
+<li>
+started - количество стартов воспроизведения видео;
+</li>
+<li>
+paused - количество пауз воспроизведения видео;
+</li>
+<li>
+resumed_after_pause - количество воспроизведения видео после паузы;
+</li>
+<li>
+fullscreen_on - количество включений полноэкранного режима воспроизведения видео;
+</li>
+<li>
+fullscreen_off - количество выключений полноэкранного режима воспроизведения видео;
+</li>
+<li>
+sound_turned_off - количество выключений звука видео;
+</li>
+<li>
+sound_turned_on - количество включений звука видео;
+</li>
+<li>
+viewed_10_seconds - количество просмотров первых 10 секунд видео;
+</li>
+<li>
+viewed_25_percent - количество просмотров первых 25% длительности видео;
+</li>
+<li>
+viewed_50_percent - количество просмотров первых 50% длительности видео;
+</li>
+<li>
+viewed_75_percent - количество просмотров первых 75% длительности видео;
+</li>
+<li>
+viewed_100_percent - количество просмотров 100% длительности видео;
+</li>
+<li>
+viewed_10_seconds_rate - процент просмотров с достижением первых 10 секунд видео;
+</li>
+<li>
+viewed_25_percent_rate - процент просмотров с достижением первых 25% длительности видео;
+</li>
+<li>
+viewed_50_percent_rate - процент просмотров с достижением первых 50% длительности видео;
+</li>
+<li>
+viewed_75_percent_rate - процент просмотров с достижением первых 75% длительности видео;
+</li>
+<li>
+viewed_100_percent_rate - процент просмотров с достижением 100% длительности видео;
+</li>
+<li>
+depth_of_view - средняя глубина просмотра видео (в процентах);
+</li>
+<li>
+view_10_seconds_cost - средняя стоимость просмотра первых 10 секунд видео;
+</li>
+<li>
+viewed_25_percent_cost - средняя стоимость просмотра первых 25% длительности видео;
+</li>
+<li>
+viewed_50_percent_cost - средняя стоимость просмотра первых 50% длительности видео;
+</li>
+<li>
+viewed_75_percent_cost - средняя стоимость просмотра первых 75% длительности видео;
+</li>
+<li>
+viewed_100_percent_cost - средняя стоимость просмотра 100% длительности видео.
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>viral</b> - метрики виральных событий:</summary></p>
-
+</details>
+<details>
+<p><summary><b>viral</b> - метрики виральных событий:</summary></p>
 <ul>
-<li>impressions - количество показов расшаренного рекламного сообщения в социальных сетях;</li>
-<li>reach - количество уникальных пользователей, увидивших расшаренное рекламное сообщение за указанный период;</li>
-<li>total - общее количество уникальных пользователей, увидевших расшаренное рекламное сообщение за всё время;</li>
-<li>increment - количество новых уникальных пользователей, увидевших расшаренное рекламное сообщение за указанный период;</li>
-<li>frequency - средняя частота показа расшаренного рекламного сообщения одному уникальному пользователю;</li>
-<li>opening_app - количество открытий рекламируемого приложения из расшаренного рекламного сообщения;</li>
-<li>opening_post - количество открытий расшаренного рекламируемого сообщения в ленте соцсетей;</li>
-<li>moving_into_group - количество переходов на страницу группы из расшаренного рекламируемого сообщения;</li>
-<li>clicks_on_external_url - количество кликов по внешней ссылке в расшаренном рекламируемом сообщении;</li>
-<li>launching_video - количество запусков видео в расшаренном рекламируемом сообщении;</li>
-<li>comments - количество оставленных комментариев в расшаренном рекламируемом сообщении;</li>
-<li>joinings - количество присоединений к группе через расшаренное рекламируемое сообщение;</li>
-<li>likes - количество лайков расшаренного рекламируемого сообщения;</li>
-<li>shares - количество действий &ldquo;Поделиться&rdquo; для расшаренного рекламируемого сообщения;</li>
-<li>votings - количество действий голосования в расшаренном рекламируемом сообщении.</li>
+<li>
+impressions - количество показов расшаренного рекламного сообщения в социальных сетях;
+</li>
+<li>
+reach - количество уникальных пользователей, увидивших расшаренное рекламное сообщение за указанный период;
+</li>
+<li>
+total - общее количество уникальных пользователей, увидевших расшаренное рекламное сообщение за всё время;
+</li>
+<li>
+increment - количество новых уникальных пользователей, увидевших расшаренное рекламное сообщение за указанный период;
+</li>
+<li>
+frequency - средняя частота показа расшаренного рекламного сообщения одному уникальному пользователю;
+</li>
+<li>
+opening_app - количество открытий рекламируемого приложения из расшаренного рекламного сообщения;
+</li>
+<li>
+opening_post - количество открытий расшаренного рекламируемого сообщения в ленте соцсетей;
+</li>
+<li>
+moving_into_group - количество переходов на страницу группы из расшаренного рекламируемого сообщения;
+</li>
+<li>
+clicks_on_external_url - количество кликов по внешней ссылке в расшаренном рекламируемом сообщении;
+</li>
+<li>
+launching_video - количество запусков видео в расшаренном рекламируемом сообщении;
+</li>
+<li>
+comments - количество оставленных комментариев в расшаренном рекламируемом сообщении;
+</li>
+<li>
+joinings - количество присоединений к группе через расшаренное рекламируемое сообщение;
+</li>
+<li>
+likes - количество лайков расшаренного рекламируемого сообщения;
+</li>
+<li>
+shares - количество действий “Поделиться” для расшаренного рекламируемого сообщения;
+</li>
+<li>
+votings - количество действий голосования в расшаренном рекламируемом сообщении.
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>carousel</b> - статистика по отдельным слайдам рекламной карусели (N - от 1 до количества слайдов):</summary></p>
-
+</details>
+<details>
+<p><summary><b>carousel</b> - статистика по отдельным слайдам рекламной карусели (N - от 1 до количества слайдов):</summary></p>
 <ul>
-<li>slide_N_shows - количество показов слайда N;</li>
-<li>slide_N_clicks - количество кликов по слайду N;</li>
-<li>slide_N_ctr - процентное отношение количества кликов к количеству просмотров по слайду N;</li>
+<li>
+slide_N_shows - количество показов слайда N;
+</li>
+<li>
+slide_N_clicks - количество кликов по слайду N;
+</li>
+<li>
+slide_N_ctr - процентное отношение количества кликов к количеству просмотров по слайду N;
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>tps</b> - статистика по дополнительным списаниям:</summary></p>
-
+</details>
+<details>
+<p><summary><b>tps</b> - статистика по дополнительным списаниям:</summary></p>
 <ul>
-<li>tps - дополнительные списания за использование сервиса moat;</li>
-<li>tpd - дополнительные списания за использование сторонних данных (от dmp). </li>
+<li>
+tps - дополнительные списания за использование сервиса moat;
+</li>
+<li>
+tpd - дополнительные списания за использование сторонних данных (от dmp).
+</li>
 </ul>
-
-<p></details></p>
-
-<p><details><summary><b>moat</b> - статистика по данным сервиса moat:</summary></p>
-
+</details>
+<details>
+<p><summary><b>moat</b> - статистика по данным сервиса moat:</summary></p>
 <ul>
-<li>impressions - количество показов;</li>
-<li>in_view - количество видимых показов;</li>
-<li>never_focused - количество показов в неактивной вкладке;</li>
-<li>never_visible - количество показов вне зоны видимости;</li>
-<li>never_50_perc_visible - количество показов с зоной видимости объявления менее 50%;</li>
-<li>never_1_sec_visible - количество показов с длительностью видимости менее 1 секунды;</li>
-<li>human_impressions - количество верифицированных показов;</li>
-<li>impressions_analyzed - количество анализируемых показов;</li>
-<li>in_view_percent - процент видимых показов;</li>
-<li>human_and_viewable_perc - процент верифицированных показов;</li>
-<li>never_focused_percent - процент показов в неактивной вкладке;</li>
-<li>never_visible_percent - процент показов вне зоны видимости;</li>
-<li>never_50_perc_visible_percent - процент оказов с зоной видимости объявления менее 50%;</li>
-<li>never_1_sec_visible_percent - процент показов с длительностью видимости менее 1 секунды;</li>
-<li>in_view_diff_percent - разница в количестве видимых показов;</li>
-<li>active_in_view_time - среднее время нахождения объявления в зоне видимости;</li>
-<li>attention_quality - уровень вовленчения;</li>
+<li>
+impressions - количество показов;
+</li>
+<li>
+in_view - количество видимых показов;
+</li>
+<li>
+never_focused - количество показов в неактивной вкладке;
+</li>
+<li>
+never_visible - количество показов вне зоны видимости;
+</li>
+<li>
+never_50_perc_visible - количество показов с зоной видимости объявления менее 50%;
+</li>
+<li>
+never_1_sec_visible - количество показов с длительностью видимости менее 1 секунды;
+</li>
+<li>
+human_impressions - количество верифицированных показов;
+</li>
+<li>
+impressions_analyzed - количество анализируемых показов;
+</li>
+<li>
+in_view_percent - процент видимых показов;
+</li>
+<li>
+human_and_viewable_perc - процент верифицированных показов;
+</li>
+<li>
+never_focused_percent - процент показов в неактивной вкладке;
+</li>
+<li>
+never_visible_percent - процент показов вне зоны видимости;
+</li>
+<li>
+never_50_perc_visible_percent - процент оказов с зоной видимости объявления менее 50%;
+</li>
+<li>
+never_1_sec_visible_percent - процент показов с длительностью видимости менее 1 секунды;
+</li>
+<li>
+in_view_diff_percent - разница в количестве видимых показов;
+</li>
+<li>
+active_in_view_time - среднее время нахождения объявления в зоне видимости;
+</li>
+<li>
+attention_quality - уровень вовленчения;
+</li>
 </ul>
+</details>
+</div>
+</div>
 
-<p></details></p>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>

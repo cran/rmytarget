@@ -3,7 +3,8 @@
   op.rmytarget <- list(rmytarget.url                 = "https://target.my.com/",
                        rmytarget.client_id           = "hiM3gdQP04UE8DFR",
                        rmytarget.client_secret       = "Jh5TZlHGKA9GarW8jYzOYsgXnlbnMtSRODkRmHhyFdfpRsG4WbUDK0bFwVm2tK4YJHCtqdyfAYZJEnwHcag9u2jsOXpRkhoGudloum1ueOsZ1KzNAvCYyExZU0HUrZK7TH4VZgx9mh6ZvJS5mRMkcwCTWLOoNWGDwKCFsYmIEwwybgj8HFmWjRdP8bOkGed6kpMPPoo7xqtVsq0U9OyBfbNEAEKHwqWXm4G",
-                       rmytarget.code_grant_auth     = TRUE)
+                       rmytarget.code_grant_auth     = TRUE,
+                       rmytarget.stat_api_version    = 'v2')
   toset <- !(names(op.rmytarget) %in% names(op))
   if (any(toset)) options(op.rmytarget[toset])
   
@@ -25,14 +26,14 @@ ryandexdirectWelcomeMessage <- function(){
          "---------------------\n",
          "Welcome to rmytarget version ", utils::packageDescription("rmytarget")$Version, "\n",
          "\n",
-         "Author:   Alexey Seleznev (Head of analytics dept at Netpeak).\n",
-		 "Telegram channel: https://t.me/R4marketing\n",
-         "Email:    selesnow@gmail.com\n",
-         "Blog:     https://alexeyseleznev.wordpress.com \n",
-         "Facebook: https://facebook.com/selesnown \n",
-         "Linkedin: https://www.linkedin.com/in/selesnow \n",
-         "Packages: https://selesnow.github.io \n",
-		 "Rdocumentation: https://www.rdocumentation.org/collaborators/name/Alexey%20Seleznev \n",
+         "Author:           Alexey Seleznev (Head of analytics dept at Netpeak).\n",
+         "Telegram channel: https://t.me/R4marketing \n",
+         "YouTube channel:  https://www.youtube.com/R4marketing/?sub_confirmation=1 \n",
+         "Email:            selesnow@gmail.com\n",
+         "Site:             https://selesnow.github.io \n",
+         "Blog:             https://alexeyseleznev.wordpress.com \n",
+         "Facebook:         https://facebook.com/selesnown \n",
+         "Linkedin:         https://www.linkedin.com/in/selesnow \n",
          "\n",
          "Type ?rmytarget for the main documentation.\n",
          "Web page for main documentation: https://selesnow.github.io/rmytarget",

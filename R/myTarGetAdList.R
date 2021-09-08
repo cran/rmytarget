@@ -29,6 +29,8 @@ myTarGetAdList <-
       stop_for_status(ads)
       adsRaw <- content(ads, "parsed", "application/json")
       
+      if ( ! myTarCheckLimits(adsRaw) ) stop("Limit error")
+      
       for (i in 1:length(adsRaw$items)) {
         temp <- list(id                = adsRaw$items[[i]]$id,
                      status            = adsRaw$items[[i]]$status,

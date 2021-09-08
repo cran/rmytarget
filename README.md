@@ -1,7 +1,9 @@
-# rmytarget - R пакет для работы с API MyTarget v2 <a href='https://selesnow.github.io/rmytarget'><img src='https://raw.githubusercontent.com/selesnow/rmytarget/master/inst/logo/rmytarget.png' align="right" height="139" /></a>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+# rmytarget - R пакет для работы с API MyTarget v2 <a href='https://selesnow.github.io/rmytarget/'><img src='https://raw.githubusercontent.com/selesnow/rmytarget/master/inst/logo/rmytarget.png' align="right" height="139" /></a>
 ================================================
 
-Подробная русскоязычная документация находится по [ссылке](https://selesnow.github.io/rmytarget).
+Подробная русскоязычная документация находится по [ссылке](https://selesnow.github.io/rmytarget/).
 
 Виньетки
 ========
@@ -16,6 +18,10 @@
 `vignette('rmytarget-auth', package = 'rmytarget')`
 
 `vignette('rmytarget-intro', package = 'rmytarget')`
+
+Поддержать проект
+========================
+Вы можете поддержать проект любой произвольной суммой перейдя по этой [ссылке](https://secure.wayforpay.com/button/b6dd4a7083fe0).
 
 Функции пакета rmytarget
 ========================
@@ -81,7 +87,3 @@ client_stat <-  myTarGetStats(date_from   = Sys.Date() - 7,
                               metrics     = "all",
                               login       = "agency_login")
 ```
-
-### Автор пакета
-
-Алексей Селезнёв, Head of analytics dept. at [Netpeak](https://netpeak.net) <Br>email: <selesnow@gmail.com> <Br>skype: selesnow <Br>facebook: [facebook.com/selesnow](https://facebook.com/selesnow) <Br>blog: [alexeyseleznev.wordpress.com](https://alexeyseleznev.wordpress.com/) <Br>Телеграмм канал: [R4marketing](https://t.me/R4marketing).

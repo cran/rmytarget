@@ -1,7 +1,15 @@
+#' Get goal list from 'MyTarget'
+#' 
+#' @inheritParams myTarGetStats
+#'
+#' @return data frame with goals parameters
+#' @export
+#' 
+#' @seealso \href{https://target.my.com/doc/api/ru/resource/Goals}{Goals API Docymentation}
 myTarGetGoalList <-
-  function(auth = NULL, 
-           login = NULL, 
-           token_path = getwd()) {
+  function(auth       = NULL, 
+           login      = getOption('rmytarget.login'), 
+           token_path = myTarTokenPath()) {
     
     
     if (is.null(auth)) {

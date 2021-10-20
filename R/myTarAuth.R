@@ -1,11 +1,32 @@
+#' Authentication in 'MyTarget API'
+#' @description Authentication in 'MyTarget API' by Code Grant Schema or other auth schems. For detail you can see \href{https://target.my.com/help/advertisers/api_authorization/ru}{documentation}.
+#' @param login Account name, used in file name if you save credential
+#' @param grant_type Your account grant, get one of two values, "client_credentials" or "agency_client_credentials". Not use in Code Grant Schema. 
+#' @param client_id Yoyr client ID. Not use in Code Grant Schema. 
+#' @param client_secret Your client secret. Not use in Code Grant Schema. 
+#' @param agency_client_name Your client user name. Only for "agency_client_credentials" grant_type.
+#' @param code_grant logical, Use code gran authorise schema, \href{https://target.my.com/help/advertisers/api_authorization/ru}{detail}
+#' @param token_path Path to directory where you save credential data.
+#'
+#' @return No return value, called for side effects
+#' @export
+#' 
+#' @seealso API authorization \href{https://target.my.com/help/advertisers/api_authorization/ru}{documentation} by 'MyTarget'.
+#' @author Alexey Seleznev
+#' @examples
+#' \dontrun{
+#'# Recomendation auth by code grant schema
+#'myTarAuth(login = "my_account_name")
+#'
+#'}						  
 myTarAuth <-
-  function(login              = NULL,
+  function(login              = getOption("rmytarget.login"),
            grant_type         = "client_credentials", 
            client_id          = getOption('rmytarget.client_id'),
            client_secret      = getOption("rmytarget.client_secret"),
            agency_client_name = NULL,
            code_grant         = getOption("rmytarget.code_grant_auth"),
-           token_path         = getwd()){
+           token_path         = myTarTokenPath()){
     
     
     if (code_grant == TRUE) {
@@ -120,3 +141,40 @@ myTarAuth <-
     }
     
   }
+
+
+myTarTokenPath <- function() {
+  
+  if ( is.null(getOption('rmytarget.token_path')) ) {
+    token_path <- getwd()
+  } else {
+    token_path <- getOption('rmytarget.token_path')
+  }
+  
+  return(token_path)
+  
+}
+
+#' Set MyTarget login
+#'
+#' @param login Your login, or client name in MyTarget account
+#'
+#' @return No return value, called for side effects
+#' @export
+myTarSetLogin <- function(login) {
+  
+  options('rmytarget.login' = login)
+  
+}
+
+#' Set path to auth cache
+#'
+#' @param token_path Path to directory where you save credential data
+#'
+#' @return No return value, called for side effects
+#' @export
+myTarSetTokenPath <- function(token_path) {
+  
+  options('rmytarget.token_path' = token_path)
+  
+}

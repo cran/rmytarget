@@ -1,8 +1,22 @@
+#' Get ads list from 'MyTarget'
+#' 
+#' @param auth MyTarget Autherization R object. See \code{\link{myTarAuth}}
+#' @param request_speed Integer, or one of slow, normal, fast. Pause between requests to API
+#' @inheritParams myTarAuth
+#'
+#' @return Data frame with banners list
+#' @export
+#' @seealso \href{https://target.my.com/doc/api/ru/resource/Banners}{MyTarget API Documentation}
+#'
+#' @examples
+#' \dontrun{
+#' myAds <- myTarGetAdList(login = "my_test_client")
+#' }
 myTarGetAdList <-
   function(auth = NULL, 
-           login = NULL, 
-		   token_path = getwd(),
-		   request_speed = 1.2){
+           login = getOption('rmytarget.login'), 
+		       token_path = myTarTokenPath(),
+		       request_speed = 1.2){
     
 	
     if (is.null(auth)) {

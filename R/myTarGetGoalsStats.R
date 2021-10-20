@@ -1,3 +1,12 @@
+#' Get Goal Statistics from 'MyTarget'
+#'
+#' @inheritParams myTarGetStats
+#' @param conversion_type Conversion type: postclick - postclick, postview - postview, total - total.
+#'
+#' @return data frame with goal statics
+#' @export
+#' @seealso \href{https://target.my.com/adv/api-marketing/doc/stat-v2#goals}{API Documentation}
+#'
 myTarGetGoalsStats <- 
   function(date_from       = Sys.Date() - 7,
            date_to         = Sys.Date(), 
@@ -6,8 +15,8 @@ myTarGetGoalsStats <-
            attribution     = c("impression", "conversion"),
            conversion_type = c("postview", "postclick", "total"),
            auth            = NULL,
-           token_path      = getwd(), 
-           login           = NULL
+           login       = getOption('rmytarget.login'), 
+           token_path  = myTarTokenPath()
   ) {
     
     start_time <- Sys.time()
@@ -70,6 +79,7 @@ myTarGetGoalsStats <-
       
       if ('goals' %in% names(result)) {
         
+        # unnest
         result <- unnest_longer(result, 'goals') %>% 
                   unnest_wider('goals')
         
